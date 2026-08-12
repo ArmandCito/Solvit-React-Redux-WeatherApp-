@@ -1,0 +1,32 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-height: 100vh;
+  padding: 100px 180px;
+}
+
+.home-main {
+  flex: 1;
+  padding: 12px 32px 32px;
+}
+
+.home-top-row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.home-left-column {
+  flex: 2;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 900px) {
+  .home-main {
+    padding: 12px 20px 24px;
+  }
+}

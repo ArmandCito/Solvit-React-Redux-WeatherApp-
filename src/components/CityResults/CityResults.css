@@ -1,0 +1,97 @@
+.city-results {
+  flex: 2;
+  min-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 32px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(36px);
+  color: #ffffff;
+}
+
+.city-results-state {
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #d7d2ec;
+  font-size: 15px;
+}
+
+.city-results-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 12px;
+  font-size: 15px;
+  color: #d7d2ec;
+}
+
+.city-results-location-icon {
+  flex-shrink: 0;
+}
+
+.city-results-error {
+  color: #ff6b6b;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.city-results-temp {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.city-results-temp-value {
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.city-results-temp-unit {
+  font-size: 20px;
+  color: #d7d2ec;
+  margin-bottom: 10px;
+}
+
+.city-results-condition {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  margin: 10px 0 20px;
+}
+
+.city-results-minmax {
+  display: flex;
+  gap: 10px;
+}
+
+.city-results-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 13px;
+}
+
+.city-results-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .city-results {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .city-results-icon {
+    align-self: center;
+  }
+}

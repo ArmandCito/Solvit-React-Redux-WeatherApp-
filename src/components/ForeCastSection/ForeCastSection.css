@@ -1,0 +1,79 @@
+.forecast-section {
+  flex: 1;
+  min-width: 280px;
+  padding: 28px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(36px);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.forecast-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+  font-size: 18px;
+  color: #a9c1ff;
+}
+
+.forecast-list {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.forecast-item {
+  display: grid;
+  grid-template-columns: 50px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.forecast-condition {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d7d2ec;
+}
+
+.forecast-temp {
+  font-weight: 700;
+  text-align: right;
+}
+
+.forecast-empty {
+  color: #d7d2ec;
+  font-size: 14px;
+}
+
+.forecast-tip {
+  margin-top: auto;
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(59, 108, 246, 0.25);
+  border: 1px solid rgba(59, 108, 246, 0.35);
+}
+
+.forecast-tip-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-weight: 600;
+  color: #a9c1ff;
+}
+
+.forecast-tip-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #e5e2f5;
+}
