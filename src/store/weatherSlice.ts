@@ -9,7 +9,8 @@ import {
 } from "../services/weatherApi";
 import type { CurrentWeather, ForecastDay } from "../types/weather";
 
-// Shape of the "weather" slice of the Redux store.
+
+
 // This replaces the local useState<WeatherState> that used to live in Home.tsx.
 export interface WeatherSliceState {
   current: CurrentWeather | null;
@@ -25,25 +26,19 @@ const initialState: WeatherSliceState = {
   error: null,
 };
 
-/**
- * Thunk: fetch current weather + forecast for a given city name.
- * createAsyncThunk automatically dispatches pending/fulfilled/rejected
- * actions for us, which we handle below in extraReducers.
- */
+
+//createAsyncThunk nous aide a dispatcher directement les actions: pending, fulfilled, rejected, on les definit en bas dans ex-reducers
 export const fetchWeatherByCity = createAsyncThunk(
-  "weather/fetchByCity", // action type prefix, shown in Redux DevTools
+  "weather/fetchByCity", // action type prefix
   async (city: string) => {
-    // Fetch current weather first, then forecast sequentially.
+    // Un puis deux
     const current = await getCurrentWeatherByCity(city);
     const forecast = await getForecastByCity(city);
-    return { current, forecast }; // becomes action.payload on success
+    return { current, forecast }; // devient action.payload si reussit
   }
 );
 
-/**
- * Thunk: fetch current weather + forecast for given coordinates
- * (used after successful geolocation).
- */
+//la meme chose mais ici c'est par lat et long
 export const fetchWeatherByCoords = createAsyncThunk(
   "weather/fetchByCoords",
   async (coords: { lat: number; lon: number }) => {
@@ -53,20 +48,16 @@ export const fetchWeatherByCoords = createAsyncThunk(
   }
 );
 
-/**
- * Thunk: try to use the browser's geolocation first; if it's denied,
- * unsupported, or fails, fall back to a default city instead.
- * `thunkAPI.dispatch` lets one thunk dispatch another thunk internally.
- */
+//la meme chose mais ici c'est par location
 export const fetchWeatherByLocation = createAsyncThunk(
   "weather/fetchByLocation",
   async (defaultCity: string, thunkAPI) => {
     try {
       const coords = await getBrowserLocation();
-      // unwrap() re-throws so our catch block below can react to a failure
+      // unwrap() va re throw pour que le catch intercepte si cela echoue
       return await thunkAPI.dispatch(fetchWeatherByCoords(coords)).unwrap();
     } catch {
-      // Geolocation denied/unsupported/failed -> fall back to default city
+      //si pas autorise, default city
       return await thunkAPI.dispatch(fetchWeatherByCity(defaultCity)).unwrap();
     }
   }
@@ -76,34 +67,32 @@ const weatherSlice = createSlice({
   name: "weather", // used as the prefix for auto-generated action types
   initialState,
   reducers: {
-    // Simple synchronous reducer: lets the UI dismiss/clear an error banner.
     clearError(state) {
-      state.error = null; // Redux Toolkit uses Immer, so "mutating" state here is safe
+      state.error = null; 
     },
   },
-  // extraReducers listen for actions created OUTSIDE this slice —
-  // in our case, the pending/fulfilled/rejected actions from the thunks above.
+  //ecoute les actions initiees par createAsyncThunk.
   extraReducers: (builder) => {
     builder
-      // --- fetchWeatherByCity ---
+      // fetchWeatherByCity
       .addCase(fetchWeatherByCity.pending, (state) => {
-        state.loading = true; // show loading UI
-        state.error = null; // clear any previous error while retrying
+        state.loading = true; 
+        state.error = null; 
       })
       .addCase(
         fetchWeatherByCity.fulfilled,
         (state, action: PayloadAction<{ current: CurrentWeather; forecast: ForecastDay[] }>) => {
           state.loading = false;
-          state.current = action.payload.current; // store fetched current weather
-          state.forecast = action.payload.forecast; // store fetched 5-day forecast
+          state.current = action.payload.current; 
+          state.forecast = action.payload.forecast; 
         }
       )
       .addCase(fetchWeatherByCity.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message ?? "Something went wrong."; // surface the error message to the UI
+        state.error = action.error.message ?? "Something went wrong."; 
       })
 
-      // --- fetchWeatherByCoords ---
+      // fetchWeatherByCoords
       .addCase(fetchWeatherByCoords.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -121,21 +110,18 @@ const weatherSlice = createSlice({
         state.error = action.error.message ?? "Something went wrong.";
       })
 
-      // --- fetchWeatherByLocation (wraps the two thunks above) ---
+      // fetchWeatherByLocation
       .addCase(fetchWeatherByLocation.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchWeatherByLocation.rejected, (state, action) => {
-        // Only reached if BOTH geolocation and the default-city fallback fail
         state.loading = false;
         state.error = action.error.message ?? "Unable to load weather data.";
       });
-    // Note: fetchWeatherByLocation.fulfilled isn't handled here because it
-    // internally dispatches fetchWeatherByCity/fetchWeatherByCoords, whose
-    // own .fulfilled cases already update state.current and state.forecast.
+    
   },
 });
 
-export const { clearError } = weatherSlice.actions; // export the plain action creator for components to use
-export default weatherSlice.reducer; // exported as the default and registered in store.ts
+export const { clearError } = weatherSlice.actions; 
+export default weatherSlice.reducer;

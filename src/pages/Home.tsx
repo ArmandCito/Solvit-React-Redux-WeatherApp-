@@ -4,26 +4,20 @@ import CityResults from "../components/CityResults/CityResults.tsx";
 import ForeCastSection from "../components/ForeCastSection/ForeCastSection.tsx";
 import WeatherDetails from "../components/WeatherDetails/WeatherDetails.tsx";
 import Footer from "../components/Footer/Footer.tsx";
-import { useAppDispatch, useAppSelector } from "../store/hooks"; // typed Redux hooks
-import { fetchWeatherByCity, fetchWeatherByLocation } from "../store/weatherSlice"; // async thunks
+import { useAppDispatch, useAppSelector } from "../store/hooks"; 
+import { fetchWeatherByCity, fetchWeatherByLocation } from "../store/weatherSlice"; 
 import { getWeatherTip } from "../services/weatherIcons";
 import "./Home.css";
 
 const DEFAULT_CITY = import.meta.env.VITE_DEFAULT_CITY || "London";
 
 function Home() {
-  // useAppDispatch gives us a dispatch function that knows how to
-  // handle thunks (async actions), not just plain action objects.
   const dispatch = useAppDispatch();
 
-  // useAppSelector reads the "weather" slice from the Redux store.
-  // Any component anywhere in the tree could read this same state
-  // without props being passed down manually.
+  
   const { current, forecast, loading, error } = useAppSelector((state) => state.weather);
 
   function handleSearch(city: string) {
-    // Dispatching a thunk triggers pending -> fulfilled/rejected
-    // actions automatically; the slice's extraReducers update the store.
     dispatch(fetchWeatherByCity(city));
   }
 
@@ -32,10 +26,9 @@ function Home() {
   }
 
   useEffect(() => {
-    // On first render, try geolocation; the thunk itself falls back
-    // to DEFAULT_CITY internally if permission is denied or unavailable.
+    //on first render
     dispatch(fetchWeatherByLocation(DEFAULT_CITY));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
   const tip = current ? getWeatherTip(current.condition, current.temp) : null;
