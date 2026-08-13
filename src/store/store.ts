@@ -11,5 +11,5 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 
-// AppDispatch includes thunk typing, which lets us dispatch async like fetchWeatherByCity with correct type
+// includes thunk typing
 export type AppDispatch = typeof store.dispatch;

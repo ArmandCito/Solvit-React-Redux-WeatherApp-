@@ -64,7 +64,7 @@ export const fetchWeatherByLocation = createAsyncThunk(
 );
 
 const weatherSlice = createSlice({
-  name: "weather", // used as the prefix for auto-generated action types
+  name: "weather", // utilise comme prefix pour action types
   initialState,
   reducers: {
     clearError(state) {
